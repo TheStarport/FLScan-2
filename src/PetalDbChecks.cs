@@ -31,7 +31,7 @@ namespace FLScanIE
                 var settings = ini.GetSettings("ObjectTable");
                 foreach (var setting in settings)
                 {
-                    bool countOK = Util.CheckNumberOfArgs(setting, pentalDBfile, 2);
+                    bool countOK = Util.CheckNumberOfArgs(setting, pentalDBfile, 2, 3);
 
                     if (countOK)
                     {
@@ -61,7 +61,7 @@ namespace FLScanIE
                                 {
                                     Logger.ELog("Could not parse utf file! " + ex.Message + ", referenced at: " + setting.desc + ", utf-file: " + utfFile);
                                 }
-                                if(utf != null)
+                                if (utf != null)
                                     petalUTF[key].Add(nick, utf);
                             }
                         }
