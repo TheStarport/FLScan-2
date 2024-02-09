@@ -25,7 +25,7 @@ namespace FLScanIE.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Discovery\\FreelancerSDK")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files (x86)\\Microsoft Games\\Freelancer")]
         public string setFlDir {
             get {
                 return ((string)(this["setFlDir"]));

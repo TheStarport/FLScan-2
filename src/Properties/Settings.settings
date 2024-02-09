@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="setFlDir" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Discovery\FreelancerSDK</Value>
+      <Value Profile="(Default)">C:\Program Files (x86)\Microsoft Games\Freelancer</Value>
     </Setting>
     <Setting Name="setCheckedFilters" Type="System.Int32[]" Scope="User">
       <Value Profile="(Default)" />
