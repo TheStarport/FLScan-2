@@ -68,8 +68,8 @@ TODO: there are references to [LightAnim]-nicknames, but lightanim.ini isn't ref
         private static string[] hasArchetype = new string[] { "LootCrate", "Shield", "CargoPod", "ShieldGenerator", "Power", "CounterMeasure", "CloakingDevice", "Gun", "Mine", "MineDropper", "Munition", "CounterMeasureDropper" }.Select(s => s.ToLower()).ToArray();
         private static string[] hasMaterial = new string[] { "LootCrate", "CargoPod", "ShieldGenerator", "Power", "CounterMeasureDropper", "CloakingDevice", "Gun", "Mine", "MineDropper" }.Select(s => s.ToLower()).ToArray();
         private static string[] hasLootAppearance = new string[] { "Commodity", "CounterMeasure", "RepairKit", "ShieldBattery", "Mine Munition" }.Select(s => s.ToLower()).ToArray();
-        private static string[] hasSeparationExplosion = new string[] { "CounterMeasureDropper", "Gun", "MineDropper" }.Select(s => s.ToLower()).ToArray();
-        private static string[] hasExplosionArch = new string[] { "LootCrate", "CargoPod", "Mine", "Munition" }.Select(s => s.ToLower()).ToArray();
+        private static string[] hasSeparationExplosion = new string[] { "CounterMeasureDropper", "Gun", "MineDropper", "ShieldGenerator", "Thruster", "CollisionGroup" }.Select(s => s.ToLower()).ToArray();
+        private static string[] hasExplosionArch = new string[] { "LootCrate", "CargoPod", "Mine", "Munition", "Ship", "Asteroid", "AsteroidMine", "DynamicAsteroid", "Solar" }.Select(s => s.ToLower()).ToArray();
         private static string[] hasDebris = new string[] { "CargoPod", "ShieldGenerator", "CounterMeasureDropper", "Gun", "MineDropper" }.Select(s => s.ToLower()).ToArray();
         private static string[] hasHpChild = new string[] { "CargoPod", "Shield", "ShieldGenerator", "CounterMeasureDropper", "CloakingDevice", "Gun", "MineDropper" }.Select(s => s.ToLower()).ToArray();
 
@@ -360,10 +360,11 @@ TODO: there are references to [LightAnim]-nicknames, but lightanim.ini isn't ref
                 switch (section.sectionName.ToLower())
                 {
                     case "good":
-                        string nick, category, equipment, item_icon, material_library, shop_archetype, msg_id_prefix, ship, hull, str_ids_info, str_ids_name;
+                                                                                                                     // Removed , str_ids_info, str_ids_name
+                        string nick, category, equipment, item_icon, material_library, shop_archetype, msg_id_prefix, ship, hull;
                         string[][] addons;
                         FLDataFile.Setting[] addonSettings;
-                        uint ids_info, ids_name;
+                        //uint ids_info, ids_name; unused
 
                         if (section.SettingExists("nickname"))
                         {
@@ -371,7 +372,7 @@ TODO: there are references to [LightAnim]-nicknames, but lightanim.ini isn't ref
                         }
                         else
                         {
-                            Logger.LogSettingNotFound(file, section.settings.Count == 0 ? "0" : section.settings[0].LineNumber.ToString(), "Good", "nicknamne");
+                            Logger.LogSettingNotFound(file, section.settings.Count == 0 ? "0" : section.settings[0].LineNumber.ToString(), "Good", "nickname");
                             break;
                         }
 

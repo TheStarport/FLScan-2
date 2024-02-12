@@ -28,7 +28,7 @@ namespace FLScanIE
 
         public static void CheckUniverseFolder()
         {
-            // TODO: check for dublicate nicknames
+            // TODO: check for duplicate nicknames
             Logger.ILog("Checking Universe-Folder");
             Util.RunChecks(CheckUniverseFile, universeFiles);
             Util.RunChecks(CheckBaseFile, baseFiles.Select(b => b.Value));
@@ -107,7 +107,7 @@ namespace FLScanIE
 
             foreach (var section in ini.sections)
             {
-                string nick;
+                //string nick; unused
                 switch (section.sectionName.ToLower())
                 {
                     case "base":
@@ -285,19 +285,32 @@ namespace FLScanIE
                             }
                         }
                         break;
-                    case "systeminfo":
+                    case "systeminfo": // Updated 01/2024
                         string name = Util.TryGetStrSetting(section, "name");
                         string local_fact = Util.TryGetStrSetting(section, "local_faction"); // TODO
+                        string rpopd = Util.TryGetStrSetting(section, "rpop_solar_detection");
+                        float farclip = float.Parse(Util.TryGetStrSetting(section, "space_farclip"));
 
-                        if (name != null && name.ToLower() != sysnick)
-                            Logger.LogInvalidValue(file, section.GetSetting("name"), "Should equal system-nickname!");
+                        //if (name != null && name.ToLower() != sysnick)
+                        //Logger.LogInvalidValue(file, section.GetSetting("name"), "Should equal system-nickname!");
+                        if (name != null)
+                            Logger.LogInvalidValue(file, section.GetSetting("name"), "Invalid line in file.");
+                        if (rpopd != null)
+                            if (rpopd.ToLower() != "false" && rpopd.ToLower() != "true")
+                                Logger.LogInvalidValue(file, section.GetSetting("rpopd"), "Must be true or false.");
+                        if (farclip < 1000)
+                            Logger.LogInvalidValue(file, section.GetSetting("farclip"), "Must be at least 1000.");
+                        else if (farclip > 999)
+                            break;
+                        else
+                            Logger.LogInvalidValue(file, section.GetSetting("farclip"), "Invalid data type, expected numeric value.");
                         break;
                     case "texturepanels":
                         val = Util.TryGetStrSetting(section, "file");
                         if (val != null && !File.Exists(Path.Combine(Checker.flDataPath, val)))
                             Logger.LogFileNotFound(file, section.GetSetting("file"));
                         break;
-                    case "archetype":
+                    case "archetype": // Updated 01/2024
                         foreach (var setting in section.settings)
                         {
                             switch (setting.settingName)
@@ -305,6 +318,14 @@ namespace FLScanIE
                                 case "solar":
                                     break;
                                 case "ship":
+                                    break;
+                                case "simple":
+                                    break;
+                                case "equipment":
+                                    break;
+                                case "snd":
+                                    break;
+                                case "voice":
                                     break;
                             }
                         }
@@ -391,11 +412,27 @@ namespace FLScanIE
                         if(dust_spacedust != null && !FXChecks.EffectExists(dust_spacedust))
                             Logger.LogInvalidValue(file, section.GetSetting("spacedust"), "Effect doesn't exist!");
                         break;
-                    case "lightsource":
+                    case "lightsource": // Updated 01/2024
+                        /*string ls_pos = Util.TryGetStrSetting(section, "pos"); TODO
+                        string ls_rot = Util.TryGetStrSetting(section, "rotate");
+                        string ls_color = Util.TryGetStrSetting(section, "color");
+                        string ls_range = Util.TryGetStrSetting(section, "range");
+                        string ls_atten = Util.TryGetStrSetting(section, "attenuation");*/
                         string ls_attenCurve = Util.TryGetStrSetting(section, "atten_curve");
                         string ls_behavior = Util.TryGetStrSetting(section, "behavior");
+                        //string ls_colcurve = Util.TryGetStrSetting(section, "color_curve");
                         string ls_type = Util.TryGetStrSetting(section, "type");
 
+                       /* if (ls_pos != null)
+                            string pos_x = ls_pos.Str(0);
+                            string pos_y = ls_pos.Str(1);
+                            string pos_z = ls_pos.Str(2);
+                            float posx;
+                            float posy;
+                            float posz;
+                            if (!Util.CheckNumberOfArgs(ls_pos, file, 3) && float.TryParse(posx, out pos_x))
+                                Logger.LogInvalidValue(file, section.GetSetting("pos"), "Position must have three number values: 0, 0, 0");
+                       */
                         if (ls_attenCurve != null)
                         {
                             if (ls_attenCurve.ToLower() != "dynamic_direction")
@@ -405,13 +442,14 @@ namespace FLScanIE
                             Logger.LogSettingNotFound(file, section.settings.Count == 0 ? "0" : section.settings[0].LineNumber.ToString(), "LightSource", "atten_curve");
 
                         if (ls_behavior != null)
-                        {
+                            Logger.LogInvalidValue(file, section.GetSetting("behavior"), "Invalid line in file.");
+                        /*{
                             if (ls_behavior.ToLower() != "nothing")
                                 Logger.LogInvalidValue(file, section.GetSetting("behavior"), "Has to be NOTHING.");
                         }
                         else
                             Logger.LogSettingNotFound(file, section.settings.Count == 0 ? "0" : section.settings[0].LineNumber.ToString(), "LightSource", "behavior");
-
+                        */
                         if (ls_type != null)
                         {
                             if (ls_type.ToLower() != "point" && ls_type.ToLower() != "directional")

@@ -105,7 +105,7 @@ namespace FLScanIE.Util_Functions
                 //Logger.LogSettingNotFound(file, identifier, section.sectionName, "ids_info");
                 return false;
             }
-            return true;
+            //return true; unused
         }
 
         public static bool CheckID(FLDataFile.Setting setting, object identifier, string file, bool infocard)
